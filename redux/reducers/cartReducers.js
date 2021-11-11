@@ -23,13 +23,13 @@ let cartReducers = (state = defaultState, action) => {
       newState.selectedItems = { items: arr, shopId: action.payload.shopId };
       return newState;
     }
-    // case "DELETE_CART": {
-    //   newState.selectedItems = {
-    //     items: [action.payload.item],
-    //     shopId: action.payload.shopId,
-    //   };
-    //   return newState;
-    // }
+    case "DELETE_CART": {
+      newState.selectedItems = {
+        items: [],
+        shopId: null,
+      };
+      return newState;
+    }
     default: {
       return state;
     }

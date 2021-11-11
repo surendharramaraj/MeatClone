@@ -123,15 +123,17 @@ const ProductImage = (props) => (
       }}
     >
       <TouchableOpacity onPress={() => props.removeItems(props.product)}>
-        <MaterialCommunityIcons name="minus" size={20} color="black" />
+        <Text style={{ fontSize: 18 }}>−</Text>
       </TouchableOpacity>
       {Object.entries(props.dict).map(([key, value]) =>
         key === props.product.title && props.selectorId === props.shopId ? (
-          <Text key={key}>{value}</Text>
+          <Text key={key} style={{ fontSize: 13, marginTop: 3 }}>
+            {value}
+          </Text>
         ) : null
       )}
       <TouchableOpacity onPress={() => props.selectItems(props.product)}>
-        <MaterialCommunityIcons name="plus" size={20} color="black" />
+        <Text style={{ fontSize: 18 }}>+</Text>
       </TouchableOpacity>
     </View>
   </View>

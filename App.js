@@ -13,8 +13,9 @@ import Home from "./Home/Home";
 import ShopDetail from "./Home/ShopDetail";
 import { Provider as ReduxProvider } from "react-redux";
 import configureStore from "./redux/store";
-import cartSummary from "./Home/cartSummary";
 import Summary from "./Home/Summary";
+import SplashMap from "./Home/SplashMap";
+import Address from "./Home/Address";
 
 const store = configureStore();
 const Stack = createNativeStackNavigator();
@@ -23,9 +24,11 @@ export default function App() {
     <ReduxProvider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="SplashMap" component={SplashMap} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="ShopDetail" component={ShopDetail} />
           <Stack.Screen name="OrderSummary" component={Summary} />
+          <Stack.Screen name="Address" component={Address} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>

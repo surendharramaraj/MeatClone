@@ -1,12 +1,24 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, SafeAreaView, Platform, StatusBar ,TouchableOpacity} from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+  TouchableOpacity,
+} from "react-native";
 import { shopItem } from "./Shop";
 import Category from "./Category";
 import Shop from "./Shop";
-export default function Home({ navigation }) {
+import Header from "./Header";
+export default function Home({ navigation, route }) {
   const [message, setMessage] = useState("Chicken");
   const [shopData, setShopData] = useState(shopItem);
   const [shopDetail, setShopDetail] = useState();
+  const [locality, setLocality] = useState("");
+  const setLocation = () => {
+    setLocality(route.params.data.locality);
+  };
   const getStall = () => {
     setShopData(
       shopItem.filter(
@@ -16,7 +28,8 @@ export default function Home({ navigation }) {
   };
   useEffect(async () => {
     await getStall();
-  }, [message]);
+    await setLocation();
+  }, [message, locality]);
   return (
     <>
       <SafeAreaView
@@ -24,6 +37,7 @@ export default function Home({ navigation }) {
           marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
         }}
       >
+        <Header navigation={navigation} locality={locality} />
         <Category message={message} setMessage={setMessage} />
       </SafeAreaView>
       <Shop message={message} shopData={shopData} navigation={navigation} />
