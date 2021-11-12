@@ -19,7 +19,7 @@ const Address = ({ navigation }) => {
       }}
     >
       <TouchableOpacity
-        onPress={() => navigation.navigate("SplashMap")}
+        onPress={() => navigation.navigate("Map")}
         style={{
           flexDirection: "row",
           alignItems: "center",

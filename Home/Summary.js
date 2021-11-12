@@ -95,6 +95,7 @@ export default function Summary({ route, navigation }) {
         Price: value[1],
       })
     );
+    //Need to pass delivery fee details
     var data = {
       customerID: 1,
       shopName: route.params.shopName,

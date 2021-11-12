@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
-
+import { DrawerActions } from "@react-navigation/routers";
 const Header = (props) => {
   console.log(props.location);
   return (
@@ -35,10 +35,10 @@ const Header = (props) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ marginRight: 10 }}
-        onPress={() => alert("yeah profile clicked")}
+        style={{ marginRight: 18 }}
+        onPress={() => props.navigation.dispatch(DrawerActions.openDrawer())}
       >
-        <FontAwesome name="user-circle" size={35} color="black" />
+        <FontAwesome name="user-circle" size={33} color="black" />
       </TouchableOpacity>
     </View>
   );

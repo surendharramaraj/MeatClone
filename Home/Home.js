@@ -1,12 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Platform,
-  StatusBar,
-  TouchableOpacity,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, Platform, StatusBar } from "react-native";
 import { shopItem } from "./Shop";
 import Category from "./Category";
 import Shop from "./Shop";
@@ -14,7 +7,6 @@ import Header from "./Header";
 export default function Home({ navigation, route }) {
   const [message, setMessage] = useState("Chicken");
   const [shopData, setShopData] = useState(shopItem);
-  const [shopDetail, setShopDetail] = useState();
   const [locality, setLocality] = useState("");
   const setLocation = () => {
     setLocality(route.params.data.locality);
