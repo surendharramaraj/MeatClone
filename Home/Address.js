@@ -25,13 +25,19 @@ const Address = ({ navigation }) => {
           alignItems: "center",
           justifyContent: "center",
           marginLeft: 15,
+          marginTop: 15,
         }}
       >
-        <MaterialIcons name="gps-fixed" size={32} color="black" />
-        <Text style={{ fontSize: 15, fontWeight: "400", marginLeft: 5 }}>
-          use GPS location
-        </Text>
+        <MaterialIcons name="gps-fixed" size={30} color="black" />
+        <View style={{flex : 1}}>
+          <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: 15 }}>
+            Current Location
+          </Text>
+          <Text style={{marginLeft: 15 }}>Using GPS</Text>
+        </View>
       </TouchableOpacity>
+      <View style={{borderWidth:1 , width:'100%',marginVertical:20}}/>
+      <><Text style={{marginLeft:15}}>SAVED ADDRESSES</Text></>
     </SafeAreaView>
   );
 };

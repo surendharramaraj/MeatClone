@@ -14,7 +14,6 @@ import HelpCenter from "./DrawerComponents/HelpCenter";
 import ProfileScreen from "./DrawerComponents/ProfileScreen";
 import CustomDrawer from "./DrawerComponents/CustomDrawer";
 import OrderHistory from "./DrawerComponents/OrderHistory";
-
 const store = configureStore();
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();

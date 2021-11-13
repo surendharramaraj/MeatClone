@@ -12,18 +12,22 @@ export default function SplashMap({ navigation }) {
     longitudeDelta: 0.01,
   });
   const [errorMsg, setErrorMsg] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
   const [locationDetails, setLocationDetails] = React.useState(null);
   const handlePress = () => {
-    navigation.navigate("Home", { data: locationDetails });
+    navigation.navigate("Home", { data: locationDetails , location: location});
   };
-  const detailOfLocation = () => {
-    fetch(
+  const detailOfLocation = async () => {
+    await fetch(
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${location.latitude}&longitude=${location.longitude}`
     )
       .then((res) => res.json())
       .then((json) => {
         setLocationDetails(json);
       });
+      setInterval(() => {
+    setLoading(false);
+  }, 2000);
   };
   React.useEffect(() => {
     (async () => {
@@ -45,111 +49,106 @@ export default function SplashMap({ navigation }) {
     })();
     detailOfLocation();
   }, [location.latitude, location.longitude]);
-  // console.log(locationDetails);
-  const handleLocation = async () => {
-    let updatedLocation = await Location.getCurrentPositionAsync({});
-    setLocation({
-      latitude: updatedLocation.coords.latitude,
-      longitude: updatedLocation.coords.longitude,
-      latitudeDelta: 0.003,
-      longitudeDelta: 0.003,
-    });
-  };
+  // const handleRegionChange = (region) => {
+  //   console.log({ region });
+  // };
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <MapView
-        style={{ width: "100%", height: "80%" }}
-        loadingEnabled={true}
-        region={location}
-        provider="google"
-      >
-        <Marker
-          coordinate={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-          }}
-          // pinColor="blue"
-        ></Marker>
-      </MapView>
-      <View style={{ position: "absolute", top: "78%", right: 30 }}>
-        <TouchableOpacity
-          style={{
-            width: 50,
-            height: 50,
-            backgroundColor: "white",
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: -50,
-            borderRadius: 30,
-          }}
-          onPress={() => handleLocation()}
-        >
-          <Ionicons name="md-locate-outline" size={38} color="red" />
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          backgroundColor: "white",
-          width: "100%",
-          height: "100%",
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}
-      >
-        <Text
-          style={{
-            marginTop: 12,
-            marginLeft: 12,
-            fontSize: 13,
-            fontWeight: "bold",
-          }}
-        >
-          SELECT DELIVERY LOCATION
-        </Text>
+    <>
+      {loading ? (
         <View
-          style={{ flexDirection: "row", paddingHorizontal: 12, marginTop: 12 }}
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Ionicons name="ios-location-outline" size={24} color="orange" />
-          {locationDetails !== null ? (
-            <Text style={{ fontWeight: "bold", fontSize: 18, marginLeft: 5 }}>
-              {locationDetails.locality}
-            </Text>
-          ) : null}
+          <Text style={{ fontSize: 24, fontWeight: "500" ,fontStyle:'italic',marginBottom:20}}>Loading...</Text>
+          <Text style={{ fontSize: 20, fontWeight: "400" }}>
+            Please Wait....We are getting your location
+          </Text>
         </View>
-        {locationDetails !== null ? (
-          <>
+      ) : (
+        <View style={{ flex: 1, alignItems: "center" }}>
+          <MapView
+            style={{ width: "100%", height: "80%" }}
+            loadingEnabled={true}
+            region={location}
+            provider="google"
+            // onRegionChange={(region) => handleRegionChange(region)}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+          ></MapView>
+          <View
+            style={{
+              backgroundColor: "white",
+              width: "100%",
+              height: "100%",
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }}
+          >
             <Text
               style={{
-                marginLeft: 12,
-                marginTop: 3,
-                fontSize: 13,
-                fontWeight: "500",
-              }}
-            >
-              {locationDetails.principalSubdivision},{" "}
-              {locationDetails.countryName}. ({locationDetails.locality})
-            </Text>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#0ff0a7",
-                width: "85%",
-                height: 40,
-                alignSelf: "center",
-                justifyContent: "center",
                 marginTop: 12,
-                borderRadius: 4,
+                marginLeft: 12,
+                fontSize: 13,
+                fontWeight: "bold",
               }}
-              onPress={() => handlePress()}
             >
-              <Text
-                style={{ textAlign: "center", fontSize: 15, fontWeight: "500" }}
-              >
-                CONFIRM LOCATION
-              </Text>
-            </TouchableOpacity>
-          </>
-        ) : null}
-      </View>
-    </View>
+              SELECT DELIVERY LOCATION
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingHorizontal: 12,
+                marginTop: 12,
+              }}
+            >
+              <Ionicons name="ios-location-outline" size={24} color="orange" />
+              {locationDetails !== null ? (
+                <Text
+                  style={{ fontWeight: "bold", fontSize: 18, marginLeft: 5 }}
+                >
+                  {locationDetails.locality}
+                </Text>
+              ) : null}
+            </View>
+            {locationDetails !== null ? (
+              <>
+                <Text
+                  style={{
+                    marginLeft: 12,
+                    marginTop: 3,
+                    fontSize: 13,
+                    fontWeight: "500",
+                  }}
+                >
+                  {locationDetails.principalSubdivision},{" "}
+                  {locationDetails.countryName}. ({locationDetails.locality})
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: "#0ff0a7",
+                    width: "85%",
+                    height: 40,
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginTop: 12,
+                    borderRadius: 4,
+                  }}
+                  onPress={() => handlePress()}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      fontWeight: "500",
+                    }}
+                  >
+                    CONFIRM LOCATION
+                  </Text>
+                </TouchableOpacity>
+              </>
+            ) : null}
+          </View>
+        </View>
+      )}
+    </>
   );
 }

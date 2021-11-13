@@ -13,7 +13,7 @@ export default function Home({ navigation, route }) {
   };
   const getShopFromApi = () => {
     const stall_url =
-      "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/STALLDETAILAPI?secret=ZAGAGETSTALLAPI&long=77.885&lat=9.182";
+      `https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/STALLDETAILAPI?secret=ZAGAGETSTALLAPI&long=${route.params.location.longitude}&lat=${route.params.location.latitude}`;
     return fetch(stall_url)
       .then((response) => response.json())
       .then((responseJson) => {
