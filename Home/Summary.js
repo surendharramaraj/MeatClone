@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  SafeAreaView
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -128,7 +129,7 @@ export default function Summary({ route, navigation }) {
 
   return (
     <>
-      <View
+      <SafeAreaView
         style={{
           marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
         }}
@@ -239,7 +240,7 @@ export default function Summary({ route, navigation }) {
             }}
           ></View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
       <View
         style={{
           position: "absolute",

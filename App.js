@@ -27,12 +27,12 @@ const drawer = () => {
         headerShown: false,
       }}
     >
-      {/* <Drawer.Screen name="Map" component={SplashMap} /> */}
-      {/* <Drawer.Screen name="Home" component={Home} /> */}
-      {/* <Drawer.Screen name="Track My Order" component={TrackOrder} /> */}
+      <Drawer.Screen name="Map" component={SplashMap} />
+      <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="Track My Order" component={TrackOrder} />
       <Drawer.Screen name="Order History" component={OrderHistory} />
-      {/* <Drawer.Screen name="Help Center" component={HelpCenter} /> */}
-      {/* <Drawer.Screen name="My Account" component={ProfileScreen} /> */}
+      <Drawer.Screen name="Help Center" component={HelpCenter} />
+      <Drawer.Screen name="My Account" component={ProfileScreen} />
     </Drawer.Navigator>
   );
 };
@@ -42,10 +42,10 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Drawer" component={drawer} />
-          {/* <Stack.Screen name="Home" component={Home} /> */}
-          {/* <Stack.Screen name="ShopDetail" component={ShopDetail} /> */}
-          {/* <Stack.Screen name="OrderSummary" component={Summary} /> */}
-          {/* <Stack.Screen name="Address" component={Address} /> */}
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="ShopDetail" component={ShopDetail} />
+          <Stack.Screen name="OrderSummary" component={Summary} />
+          <Stack.Screen name="Address" component={Address} />
         </Stack.Navigator>
       </NavigationContainer>
     </ReduxProvider>

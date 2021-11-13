@@ -11,17 +11,21 @@ export default function Home({ navigation, route }) {
   const setLocation = () => {
     setLocality(route.params.data.locality);
   };
-  const getStall = () => {
-    setShopData(
-      shopItem.filter(
-        (item) => item.category.includes(message) && item.is_closed === false
-      )
-    );
+  const getShopFromApi = () => {
+    const stall_url =
+      "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/STALLDETAILAPI?secret=ZAGAGETSTALLAPI&long=77.885&lat=9.182";
+    return fetch(stall_url)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setShopData(responseJson);
+      });
   };
+
   useEffect(async () => {
-    await getStall();
+    await getShopFromApi();
     await setLocation();
-  }, [message, locality]);
+  }, []);
+
   return (
     <>
       <SafeAreaView
