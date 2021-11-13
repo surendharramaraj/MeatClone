@@ -14,6 +14,7 @@ import HelpCenter from "./DrawerComponents/HelpCenter";
 import ProfileScreen from "./DrawerComponents/ProfileScreen";
 import CustomDrawer from "./DrawerComponents/CustomDrawer";
 import OrderHistory from "./DrawerComponents/OrderHistory";
+import { ContextProvider } from "./GlobalContext/ContextProvider";
 const store = configureStore();
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,16 +38,18 @@ const drawer = () => {
 };
 export default function App() {
   return (
-    <ReduxProvider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Drawer" component={drawer} />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="ShopDetail" component={ShopDetail} />
-          <Stack.Screen name="OrderSummary" component={Summary} />
-          <Stack.Screen name="Address" component={Address} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ReduxProvider>
+    <ContextProvider>
+      <ReduxProvider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Drawer" component={drawer} />
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="ShopDetail" component={ShopDetail} />
+            <Stack.Screen name="OrderSummary" component={Summary} />
+            <Stack.Screen name="Address" component={Address} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ReduxProvider>
+    </ContextProvider>
   );
 }

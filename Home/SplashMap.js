@@ -1,8 +1,9 @@
-import React from "react";
-import { View, Text, Dimensions, TouchableOpacity } from "react-native";
+import React, { useContext } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import * as Location from "expo-location";
-import MapView, { Callout, Marker } from "react-native-maps";
+import MapView from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
+import Context from "../GlobalContext/ContextProvider";
 
 export default function SplashMap({ navigation }) {
   const [location, setLocation] = React.useState({
@@ -13,9 +14,10 @@ export default function SplashMap({ navigation }) {
   });
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
+  const { setLocality, setLatLng } = useContext(Context);
   const [locationDetails, setLocationDetails] = React.useState(null);
   const handlePress = () => {
-    navigation.navigate("Home", { data: locationDetails , location: location});
+    navigation.navigate("Home");
   };
   const detailOfLocation = async () => {
     await fetch(
@@ -24,10 +26,12 @@ export default function SplashMap({ navigation }) {
       .then((res) => res.json())
       .then((json) => {
         setLocationDetails(json);
+        setLocality(json.locality);
       });
-      setInterval(() => {
-    setLoading(false);
-  }, 2000);
+    setLatLng(location);
+    setInterval(() => {
+      setLoading(false);
+    }, 2000);
   };
   React.useEffect(() => {
     (async () => {
@@ -58,7 +62,16 @@ export default function SplashMap({ navigation }) {
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Text style={{ fontSize: 24, fontWeight: "500" ,fontStyle:'italic',marginBottom:20}}>Loading...</Text>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "500",
+              fontStyle: "italic",
+              marginBottom: 20,
+            }}
+          >
+            Loading...
+          </Text>
           <Text style={{ fontSize: 20, fontWeight: "400" }}>
             Please Wait....We are getting your location
           </Text>

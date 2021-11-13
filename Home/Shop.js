@@ -1,7 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-export const shopItem = []
+export const shopItem = [];
 export default function Shop(props) {
   let length_of_the_shop = props.shopData.filter(
     (item) => item.category.includes(props.message) && item.is_closed === false
@@ -10,9 +17,22 @@ export default function Shop(props) {
     <>
       <ScrollView vertical showsVerticalScrollIndicator={false}>
         {length_of_the_shop === 0 ? (
-          <View style={{alignItems:'center',justifyContent: 'center',marginTop:Dimensions.get('window').height/3}}>
-            <Image source={require('../assets/NoMeatLogo.png')} style={{width:150,height:150}}/>
-            <Text style={{fontSize:26 , fontWeight: '500' , fontStyle: 'italic' }}>{props.message} is not currently available</Text>
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: Dimensions.get("window").height / 3,
+            }}
+          >
+            <Image
+              source={require("../assets/NoMeatLogo.png")}
+              style={{ width: 150, height: 150 }}
+            />
+            <Text
+              style={{ fontSize: 26, fontWeight: "500", fontStyle: "italic" }}
+            >
+              {props.message} is not currently available
+            </Text>
           </View>
         ) : (
           props.shopData
