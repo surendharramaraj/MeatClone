@@ -77,7 +77,7 @@ export default function ShopItem(props) {
             borderRadius: 30,
           }}
           onPress={() =>
-            props.navigation.navigate("OrderSummary", {
+            props.navigation.navigate("SummaryClone", {
               shopName: props.shopName,
               shopImage: props.shopImage,
               address: props.address,

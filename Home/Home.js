@@ -9,10 +9,6 @@ export default function Home({ navigation, route }) {
   const [message, setMessage] = useState("Chicken");
   const [shopData, setShopData] = useState(shopItem);
   const { locality, latLng } = useContext(Context);
-  // const [locality, setLocality] = useState("");
-  // const setLocation = () => {
-  //   setLocality(route.params.data.locality);
-  // };
   const getShopFromApi = () => {
     const stall_url = `https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/STALLDETAILAPI?secret=ZAGAGETSTALLAPI&long=${latLng.longitude}&lat=${latLng.latitude}`;
     return fetch(stall_url)
@@ -24,7 +20,6 @@ export default function Home({ navigation, route }) {
 
   useEffect(async () => {
     await getShopFromApi();
-    // setLocation();
   }, []);
 
   return (

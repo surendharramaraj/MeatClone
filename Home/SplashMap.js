@@ -29,6 +29,7 @@ export default function SplashMap({ navigation }) {
         setLocality(json.locality);
       });
     setLatLng(location);
+    // console.log("locationDetails", locationDetails);
     setInterval(() => {
       setLoading(false);
     }, 2000);

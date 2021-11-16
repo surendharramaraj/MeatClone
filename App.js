@@ -15,10 +15,13 @@ import ProfileScreen from "./DrawerComponents/ProfileScreen";
 import CustomDrawer from "./DrawerComponents/CustomDrawer";
 import OrderHistory from "./DrawerComponents/OrderHistory";
 import { ContextProvider } from "./GlobalContext/ContextProvider";
+import DeliverActionSheet from "./Home/DeliverActionSheet";
+import SummaryClone from "./Home/SummaryClone";
+import Context from "./GlobalContext/ContextProvider";
+import Login from "./Home/Login";
 const store = configureStore();
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
-
 const drawer = () => {
   return (
     <Drawer.Navigator
@@ -39,17 +42,36 @@ const drawer = () => {
 export default function App() {
   return (
     <ContextProvider>
-      <ReduxProvider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Drawer" component={drawer} />
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="ShopDetail" component={ShopDetail} />
-            <Stack.Screen name="OrderSummary" component={Summary} />
-            <Stack.Screen name="Address" component={Address} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ReduxProvider>
+      <UserAuth />
     </ContextProvider>
   );
 }
+
+const UserAuth = () => {
+  const { user } = React.useContext(Context);
+  // console.log(user);
+  return (
+    <ReduxProvider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {user ? (
+            <>
+              <Stack.Screen name="Drawer" component={drawer} />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="ShopDetail" component={ShopDetail} />
+              {/* <Stack.Screen name="OrderSummary" component={Summary} /> */}
+              <Stack.Screen name="SummaryClone" component={SummaryClone} />
+              <Stack.Screen
+                name="DeliveryAddress"
+                component={DeliverActionSheet}
+              />
+              <Stack.Screen name="Address" component={Address} />
+            </>
+          ) : (
+            <Stack.Screen name="Login" component={Login} />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ReduxProvider>
+  );
+};
