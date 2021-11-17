@@ -35,24 +35,12 @@ export default function SummaryClone({ route, navigation }) {
   console.log(address, "contextaddress");
   const handleOpen = (event) => {
     console.log(event);
-    // setButtonText(event);
-    // onOpen();
     if (event === "ADD_ADDRESS") {
       navigation.navigate("DeliveryAddress");
     } else {
       onOpen();
       setButtonText(event);
     }
-
-    // return (
-
-    //     {event === "ADD_ADDRESS" ? (
-
-    //     ) : (
-
-    //     )}
-
-    // );
   };
 
   items.forEach((item) => {
@@ -65,8 +53,6 @@ export default function SummaryClone({ route, navigation }) {
       dict[item.title] = [1, Number(item.price.replace("Rs.", ""))];
     }
   });
-
-  // console.log(Object.keys(dict));
   const onMinus = (name) => {
     for (var i = 0; i < items.length; i++) {
       var name1 = items[i].title;
@@ -102,7 +88,6 @@ export default function SummaryClone({ route, navigation }) {
       type: "ADD_TO_CART",
       payload: { item, shopId: route.params.shopId },
     });
-
   const Bill = [
     {
       name: "Sub-Total",
@@ -384,13 +369,14 @@ export default function SummaryClone({ route, navigation }) {
                       marginRight: 10,
                     }}
                   >
-                    <TouchableOpacity onPress={() => setCheckAddress(false)}>
+                    <TouchableOpacity onPress={() => setCheckAddress(false)} style={{borderWidth:1, padding:5,borderColor: "red",
+                          opacity: 0.7,}}>
                       <Text
                         style={{
                           fontSize: 15,
-                          // color: "red",
-                          // opacity: 0.7,
-                          // fontWeight: "500",
+                          color: "red",
+                          opacity: 0.7,
+                          fontWeight: "500",
                         }}
                       >
                         Change
@@ -408,7 +394,7 @@ export default function SummaryClone({ route, navigation }) {
                 >
                   <View>
                     <Text style={{ fontSize: 14, fontWeight: "700" }}>
-                      ₹{total}
+                      ₹{Bill[3].price}
                     </Text>
                     <Text style={{ color: "grey", opacity: 0.8, fontSize: 13 }}>
                       Cash On Delivery
@@ -416,7 +402,7 @@ export default function SummaryClone({ route, navigation }) {
                   </View>
                   <TouchableOpacity
                     style={{
-                      backgroundColor: "black",
+                      backgroundColor: "#0ff0a7",
                       height: 40,
                       alignItems: "center",
                       justifyContent: "center",
