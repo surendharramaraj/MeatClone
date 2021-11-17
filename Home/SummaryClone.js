@@ -2,11 +2,9 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import {
   Actionsheet,
-  Box,
   NativeBaseProvider,
   Center,
   useDisclose,
-  KeyboardAvoidingView,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -18,11 +16,9 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
-  Button,
   Dimensions,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import DeliverActionSheet from "./DeliverActionSheet";
 import Context from "../GlobalContext/ContextProvider";
 export default function SummaryClone({ route, navigation }) {
   const { isOpen, onOpen, onClose } = useDisclose();
@@ -34,13 +30,29 @@ export default function SummaryClone({ route, navigation }) {
     .reduce((prev, curr) => prev + curr, 0);
 
   const dict = {};
-  const { address,locality, setAddress } = React.useContext(Context);
+  const { address, locality, setAddress, checkAddress, setCheckAddress } =
+    React.useContext(Context);
   console.log(address, "contextaddress");
   const handleOpen = (event) => {
     console.log(event);
-    setButtonText(event);
+    // setButtonText(event);
     // onOpen();
-    event === "SELECT_ADDRESS" ? onOpen() : null;
+    if (event === "ADD_ADDRESS") {
+      navigation.navigate("DeliveryAddress");
+    } else {
+      onOpen();
+      setButtonText(event);
+    }
+
+    // return (
+
+    //     {event === "ADD_ADDRESS" ? (
+
+    //     ) : (
+
+    //     )}
+
+    // );
   };
 
   items.forEach((item) => {
@@ -277,7 +289,7 @@ export default function SummaryClone({ route, navigation }) {
               width: "100%",
             }}
           >
-            {address === null ? (
+            {checkAddress === false ? (
               <View
                 style={{
                   flexDirection: "row",
@@ -337,9 +349,8 @@ export default function SummaryClone({ route, navigation }) {
                   style={{
                     margin: 10,
                     borderTopWidth: 1,
-                    bottom: 50,
+                    bottom: 120,
                     flexDirection: "row",
-                  
                   }}
                 >
                   <View
@@ -361,21 +372,70 @@ export default function SummaryClone({ route, navigation }) {
                     <Text style={{ fontSize: 15, fontWeight: "700" }}>
                       Delivery location
                     </Text>
-                    <Text style={{ fontSize: 15, color: "grey" ,marginTop:5}}>{locality}</Text>
+                    <Text style={{ fontSize: 15, color: "grey", marginTop: 5 }}>
+                      {locality}
+                    </Text>
                   </View>
-                  <View style={{alignItems: 'flex-end',flex:1 , justifyContent:'center',marginRight:10}}>
-                    <TouchableOpacity onPress={() => setAddress(null)}>
-                      <Text style={{fontSize: 15, color: "red", opacity:0.7,fontWeight: "500"}}>Change</Text>
+                  <View
+                    style={{
+                      alignItems: "flex-end",
+                      flex: 1,
+                      justifyContent: "center",
+                      marginRight: 10,
+                    }}
+                  >
+                    <TouchableOpacity onPress={() => setCheckAddress(false)}>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          // color: "red",
+                          // opacity: 0.7,
+                          // fontWeight: "500",
+                        }}
+                      >
+                        Change
+                      </Text>
                     </TouchableOpacity>
                   </View>
+                </View>
+                <View
+                  style={{
+                    bottom: 110,
+                    marginLeft: 15,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View>
+                    <Text style={{ fontSize: 14, fontWeight: "700" }}>
+                      ₹{total}
+                    </Text>
+                    <Text style={{ color: "grey", opacity: 0.8, fontSize: 13 }}>
+                      Cash On Delivery
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: "black",
+                      height: 40,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: 8,
+                      width: 120,
+                      marginRight: 10,
+                    }}
+                    onPress={() => orderPlaced()}
+                  >
+                    <Text style={{ fontSize: 15, color: "white" }}>
+                      Place Order
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </>
             )}
           </View>
-          <Center flex={1}>
-            {buttonText === "ADD_ADDRESS" ? (
-              navigation.navigate("DeliveryAddress")
-            ) : (
+          {buttonText === "SELECT_ADDRESS" ? (
+            <Center flex={1}>
               <Actionsheet isOpen={isOpen} onClose={onClose}>
                 <Actionsheet.Content>
                   <Actionsheet.Item disabled>
@@ -384,8 +444,8 @@ export default function SummaryClone({ route, navigation }) {
                   </Actionsheet.Item>
                 </Actionsheet.Content>
               </Actionsheet>
-            )}
-          </Center>
+            </Center>
+          ) : null}
         </SafeAreaView>
       </>
     </NativeBaseProvider>

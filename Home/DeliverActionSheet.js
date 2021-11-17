@@ -11,34 +11,39 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
-import { KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "react-native";
 import Context from "../GlobalContext/ContextProvider";
 import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 export default function DeliverActionSheet() {
   const navigation = useNavigation();
-  const { locality, latLng, setAddress , address , user} = React.useContext(Context);
+  const { locality, latLng, setAddress, user, setCheckAddress } =
+    React.useContext(Context);
   const [houseNumber, setHouseNumber] = React.useState("");
   const [street, setStreet] = React.useState("");
   const [landmark, setLandmark] = React.useState("");
   const [save, setSave] = React.useState("");
   const handleAddress = async () => {
     var location_to_database = await {
-      HouseNumber : houseNumber,
-      Area : street,
-      Landmark : landmark,
-      City : locality, 
-      SaveAs : save,
-      latitude : latLng.latitude.toFixed(4),
-      longitude : latLng.longitude.toFixed(4)
+      HouseNumber: houseNumber,
+      Area: street,
+      Landmark: landmark,
+      City: locality,
+      SaveAs: save,
+      latitude: latLng.latitude.toFixed(4),
+      longitude: latLng.longitude.toFixed(4),
     };
-    await user[0].address.push(location_to_database)
+    await user[0].address.push(location_to_database);
     // console.log(user[0].address, 'locationtodatabase');
     // var article = {address: user[0].address.push(location_to_database)}
     // console.log(article, "article data");
-    await axios.post('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/ADDRESS', {address:user[0].address})
-    .then(res => console.log(res));
+    // await axios
+    //   .post(
+    //     "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/ADDRESS",
+    //     { address: user[0].address }
+    //   )
+    //   .then((res) => console.log(res));
+    await setCheckAddress(true);
     await setAddress(houseNumber + " " + street + " " + locality);
     await navigation.goBack();
   };
