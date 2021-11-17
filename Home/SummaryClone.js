@@ -20,7 +20,9 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Context from "../GlobalContext/ContextProvider";
-export default function SummaryClone({ route, navigation }) {
+import { useNavigation } from "@react-navigation/core";
+export default function SummaryClone({ route }) {
+  const navigation = useNavigation();
   const { isOpen, onOpen, onClose } = useDisclose();
   const [orderID, setOrderID] = React.useState({});
   const items = useSelector((state) => state.selectedItems.items);
@@ -28,7 +30,9 @@ export default function SummaryClone({ route, navigation }) {
   const total = items
     .map((item) => Number(item.price.replace("Rs.", "")))
     .reduce((prev, curr) => prev + curr, 0);
-
+  React.useEffect(() => {
+    items.length > 0 ? null : navigation.goBack();
+  }, [items]);
   const dict = {};
   const { address, locality, setAddress, checkAddress, setCheckAddress } =
     React.useContext(Context);
@@ -369,8 +373,15 @@ export default function SummaryClone({ route, navigation }) {
                       marginRight: 10,
                     }}
                   >
-                    <TouchableOpacity onPress={() => setCheckAddress(false)} style={{borderWidth:1, padding:5,borderColor: "red",
-                          opacity: 0.7,}}>
+                    <TouchableOpacity
+                      onPress={() => setCheckAddress(false)}
+                      style={{
+                        borderWidth: 1,
+                        padding: 5,
+                        borderColor: "red",
+                        opacity: 0.7,
+                      }}
+                    >
                       <Text
                         style={{
                           fontSize: 15,
