@@ -150,7 +150,10 @@ export default function SummaryClone({ route, navigation }) {
       deliveryLocation: "Loyal mill colony,Kovilpatti",
       datetime: new Date(),
     };
-
+    //Delete the cart
+    await dispatch({
+      type: "DELETE_CART",
+    });
     await axios
       .post(
         "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/ORDERPLACED?secret=ZAGAORDERPLACED",
@@ -164,10 +167,6 @@ export default function SummaryClone({ route, navigation }) {
           alert("Order Placed Failed");
         }
       });
-    //Delete the cart
-    dispatch({
-      type: "DELETE_CART",
-    });
     navigation.navigate("Home");
   };
 

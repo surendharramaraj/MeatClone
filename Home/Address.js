@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Platform,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Context from "../GlobalContext/ContextProvider";
@@ -40,6 +41,7 @@ const Address = ({ navigation }) => {
     navigation.navigate("Home");
   };
   return (
+    <>
     <SafeAreaView
       style={{
         marginTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
@@ -65,8 +67,10 @@ const Address = ({ navigation }) => {
         </View>
       </TouchableOpacity>
       <View style={{ borderWidth: 1, width: "100%", marginVertical: 20 }} />
-      <>
+    </SafeAreaView>
+    <>
         <Text style={{ marginLeft: 15 }}>SAVED ADDRESSES</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
         {user[0].address.map((value, index) => (
           <TouchableOpacity key={index} onPress={() => handleLatLng(value)}>
             <View style={{ flexDirection: "row" }}>
@@ -96,8 +100,9 @@ const Address = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         ))}
+        </ScrollView>
       </>
-    </SafeAreaView>
+    </>
   );
 };
 

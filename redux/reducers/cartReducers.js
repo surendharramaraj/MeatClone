@@ -30,6 +30,13 @@ let cartReducers = (state = defaultState, action) => {
       };
       return newState;
     }
+    case "NEW_ITEM": {
+      newState.selectedItems = {
+        items: [action.payload.item],
+        shopId: action.payload.shopId,
+      };
+      return newState;
+    }
     default: {
       return state;
     }

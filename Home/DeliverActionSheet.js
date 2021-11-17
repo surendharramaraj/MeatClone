@@ -105,7 +105,7 @@ export default function DeliverActionSheet() {
           placeholder={"SAVE AS"}
         />
       </>
-      {houseNumber.length > 2 && street.length > 2 && save.length > 2 ? (
+      {houseNumber.length > 2 && save.length > 2 ? (
         <View style={{ flex: 1, alignItems: "center", marginTop: 30 }}>
           <TouchableOpacity
             style={{

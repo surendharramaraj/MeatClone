@@ -28,6 +28,11 @@ export default function ShopItem(props) {
       type: "ADD_TO_CART",
       payload: { item, shopId: props.shopId },
     });
+    const newItems = (item) => 
+    dispatch({
+      type: "NEW_ITEM",
+      payload: { item, shopId: props.shopId },
+    });
   const itemsList = useSelector((state) => state.selectedItems.items);
   var selectorId = useSelector((state) => state.selectedItems.shopId);
   itemsList.forEach((item) => {
@@ -55,6 +60,7 @@ export default function ShopItem(props) {
                 product={item}
                 removeItems={removeItems}
                 selectItems={selectItems}
+                newItems={newItems}
                 dict={dict}
                 shopId={props.shopId}
                 selectorId={selectorId}
@@ -65,7 +71,7 @@ export default function ShopItem(props) {
         ))}
       </ScrollView>
       {/* VIEW CART BUTTON */}
-      {total ? (
+      {total && props.shopId === selectorId? (
         <TouchableOpacity
           style={{
             width: 250,
@@ -122,7 +128,7 @@ const ProductImage = (props) => (
         position: "relative",
       }}
     >
-      <TouchableOpacity onPress={() => props.removeItems(props.product)}>
+      <TouchableOpacity onPress={() => {props.shopId === props.selectorId || null ? props.removeItems(props.product) : null}}>
         <Text style={{ fontSize: 18 }}>−</Text>
       </TouchableOpacity>
       {Object.entries(props.dict).map(([key, value]) =>
@@ -132,7 +138,7 @@ const ProductImage = (props) => (
           </Text>
         ) : null
       )}
-      <TouchableOpacity onPress={() => props.selectItems(props.product)}>
+      <TouchableOpacity onPress={() => {props.shopId === props.selectorId || null ? props.selectItems(props.product) :props.newItems(props.product) }}>
         <Text style={{ fontSize: 18 }}>+</Text>
       </TouchableOpacity>
     </View>
