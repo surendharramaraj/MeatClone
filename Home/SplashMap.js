@@ -34,6 +34,7 @@ export default function SplashMap({ navigation }) {
       setLoading(false);
     }, 2000);
   };
+
   React.useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -57,6 +58,7 @@ export default function SplashMap({ navigation }) {
   // const handleRegionChange = (region) => {
   //   console.log({ region });
   // };
+
   return (
     <>
       {loading ? (

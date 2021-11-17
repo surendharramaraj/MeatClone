@@ -32,17 +32,19 @@ export default function DeliverActionSheet() {
       SaveAs: save,
       latitude: latLng.latitude.toFixed(4),
       longitude: latLng.longitude.toFixed(4),
+      latitudeDelta: 0.03,
+      longitudeDelta: 0.03,
     };
     await user[0].address.push(location_to_database);
     // console.log(user[0].address, 'locationtodatabase');
     // var article = {address: user[0].address.push(location_to_database)}
     // console.log(article, "article data");
-    // await axios
-    //   .post(
-    //     "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/ADDRESS",
-    //     { address: user[0].address }
-    //   )
-    //   .then((res) => console.log(res));
+    await axios
+      .post(
+        "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/ADDRESS",
+        { address: user[0].address }
+      )
+      .then((res) => console.log(res));
     await setCheckAddress(true);
     await setAddress(houseNumber + " " + street + " " + locality);
     await navigation.goBack();
@@ -76,7 +78,6 @@ export default function DeliverActionSheet() {
           onChangeText={(text) => setStreet(text)}
           value={street}
           placeholder={"APARTMENT / ROAD / AREA (OPTIONAL)"}
-          maxLength={30}
         />
         <TextInput
           style={{

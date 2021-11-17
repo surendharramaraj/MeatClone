@@ -2,15 +2,17 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Context from "../GlobalContext/ContextProvider";
 const Login = () => {
-  const { user, setUser } = React.useContext(Context);
-  const handleLogin = async() => {
-    await fetch("https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/GETCUSTOMERDATA")
-    .then(res => res.json())
-    .then(data => {
-      // console.log(data);
-      setUser(data);
-    })
-  }
+  const { setUser } = React.useContext(Context);
+  const handleLogin = async () => {
+    await fetch(
+      "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/GETCUSTOMERDATA"
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        setUser(data);
+      });
+  };
   // console.log(user , 'login.js');
   return (
     <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>

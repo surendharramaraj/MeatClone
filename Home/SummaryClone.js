@@ -25,6 +25,7 @@ export default function SummaryClone({ route }) {
   const navigation = useNavigation();
   const { isOpen, onOpen, onClose } = useDisclose();
   const [orderID, setOrderID] = React.useState({});
+  const [nearBy, setNearBy] = React.useState();
   const items = useSelector((state) => state.selectedItems.items);
   const [buttonText, setButtonText] = React.useState("");
   const total = items
@@ -34,8 +35,15 @@ export default function SummaryClone({ route }) {
     items.length > 0 ? null : navigation.goBack();
   }, [items]);
   const dict = {};
-  const { address, locality, setAddress, checkAddress, setCheckAddress } =
-    React.useContext(Context);
+  const {
+    address,
+    locality,
+    setAddress,
+    checkAddress,
+    setCheckAddress,
+    user,
+    setLocality,
+  } = React.useContext(Context);
   console.log(address, "contextaddress");
   const handleOpen = (event) => {
     console.log(event);
@@ -111,6 +119,19 @@ export default function SummaryClone({ route }) {
     },
   ];
 
+  useEffect(() => {
+    var arr_latLng = [];
+    user.map((item) => {
+      //   console.log(item.address);
+      item.address.filter((it) =>
+        it.longitude === "77.8513" && it.latitude === "9.1880"
+          ? arr_latLng.push(it)
+          : setNearBy("No Near By Location Available")
+      );
+    });
+    setNearBy(arr_latLng);
+  }, [user]);
+
   const orderPlaced = async () => {
     var arr = [];
     Object.entries(dict).forEach(([key, value]) =>
@@ -149,6 +170,14 @@ export default function SummaryClone({ route }) {
       type: "DELETE_CART",
     });
     navigation.navigate("Home");
+  };
+
+  const handleChangeAddress = async (item) => {
+    // console.log(item);
+    await setAddress(item);
+    await setCheckAddress(true);
+    await setLocality(item.City);
+    onClose();
   };
 
   return (
@@ -361,7 +390,7 @@ export default function SummaryClone({ route }) {
                     <Text style={{ fontSize: 15, fontWeight: "700" }}>
                       Delivery location
                     </Text>
-                    <Text style={{ fontSize: 15, color: "grey", marginTop: 5 }}>
+                    <Text style={{ fontSize: 13, color: "grey", marginTop: 5 }}>
                       {locality}
                     </Text>
                   </View>
@@ -435,10 +464,24 @@ export default function SummaryClone({ route }) {
             <Center flex={1}>
               <Actionsheet isOpen={isOpen} onClose={onClose}>
                 <Actionsheet.Content>
-                  <Actionsheet.Item disabled>
-                    {/* <DeliverActionSheet buttonText={buttonText} /> */}
-                    <Text>{address}</Text>
-                  </Actionsheet.Item>
+                  {nearBy.map((item, index) => (
+                    <Actionsheet.Item
+                      key={index}
+                      onPress={() => handleChangeAddress(item)}
+                    >
+                      <View style={{ flexDirection: "row" }}>
+                        <Ionicons
+                          name="md-location-outline"
+                          size={22}
+                          color="black"
+                          key={index}
+                        />
+                        <Text style={{ marginLeft: 8 }}>
+                          {item.HouseNumber}, {item.Area}, {item.City}
+                        </Text>
+                      </View>
+                    </Actionsheet.Item>
+                  ))}
                 </Actionsheet.Content>
               </Actionsheet>
             </Center>
