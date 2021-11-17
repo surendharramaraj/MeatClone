@@ -36,9 +36,6 @@ export default function DeliverActionSheet() {
       longitudeDelta: 0.03,
     };
     await user[0].address.push(location_to_database);
-    // console.log(user[0].address, 'locationtodatabase');
-    // var article = {address: user[0].address.push(location_to_database)}
-    // console.log(article, "article data");
     await axios
       .post(
         "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/application-0-fkimm/service/StallDetailsAPI/incoming_webhook/ADDRESS",
@@ -108,29 +105,31 @@ export default function DeliverActionSheet() {
           placeholder={"SAVE AS"}
         />
       </>
-      <View style={{ flex: 1, alignItems: "center", marginTop: 30 }}>
-        <TouchableOpacity
-          style={{
-            width: "90%",
-            height: 40,
-            backgroundColor: "#0ff0a7",
-            borderRadius: 10,
-          }}
-          onPress={() => handleAddress()}
-        >
-          <Text
+      {houseNumber.length > 2 && street.length > 2 && save.length > 2 ? (
+        <View style={{ flex: 1, alignItems: "center", marginTop: 30 }}>
+          <TouchableOpacity
             style={{
-              fontSize: 18,
-              fontWeight: "600",
-              color: "white",
-              textAlign: "center",
-              paddingTop: 10,
+              width: "90%",
+              height: 40,
+              backgroundColor: "#0ff0a7",
+              borderRadius: 10,
             }}
+            onPress={() => handleAddress()}
           >
-            SAVE
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: "600",
+                color: "white",
+                textAlign: "center",
+                paddingTop: 10,
+              }}
+            >
+              SAVE
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 }

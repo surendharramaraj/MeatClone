@@ -21,8 +21,8 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import Context from "../GlobalContext/ContextProvider";
 import { useNavigation } from "@react-navigation/core";
-export default function SummaryClone({ route }) {
-  const navigation = useNavigation();
+export default function SummaryClone({ route, navigation }) {
+  // const navigation = useNavigation();
   const { isOpen, onOpen, onClose } = useDisclose();
   const [orderID, setOrderID] = React.useState({});
   const [nearBy, setNearBy] = React.useState();
@@ -31,9 +31,7 @@ export default function SummaryClone({ route }) {
   const total = items
     .map((item) => Number(item.price.replace("Rs.", "")))
     .reduce((prev, curr) => prev + curr, 0);
-  React.useEffect(() => {
-    items.length > 0 ? null : navigation.goBack();
-  }, [items]);
+
   const dict = {};
   const {
     address,
@@ -130,7 +128,8 @@ export default function SummaryClone({ route }) {
       );
     });
     setNearBy(arr_latLng);
-  }, [user]);
+    items.length > 0 ? null : navigation.goBack();
+  }, [user, items]);
 
   const orderPlaced = async () => {
     var arr = [];
