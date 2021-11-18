@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/core";
 import axios from "axios";
 export default function DeliverActionSheet() {
   const navigation = useNavigation();
-  const { locality, latLng, setAddress, user, setCheckAddress } =
+  const { locality, latLng, setAddress, user, setCheckAddress , address , locationDetails} =
     React.useContext(Context);
   const [houseNumber, setHouseNumber] = React.useState("");
   const [street, setStreet] = React.useState("");
@@ -43,7 +43,8 @@ export default function DeliverActionSheet() {
       )
       .then((res) => console.log(res));
     await setCheckAddress(true);
-    await setAddress(houseNumber + " " + street + " " + locality);
+    // await setAddress(houseNumber + " " + street + " " + locality);
+    await setAddress(location_to_database)
     await navigation.goBack();
   };
   // console.log(latLng, 'Deliversheet');
@@ -54,12 +55,11 @@ export default function DeliverActionSheet() {
     >
       <View style={{ flexDirection: "row" }}>
         <EvilIcons name="location" size={24} color="orange" />
-        <Text style={{ fontSize: 18, fontWeight: "600" }}>Puthukiramam</Text>
+        <Text style={{ fontSize: 18, fontWeight: "600" }}>{locality}</Text>
       </View>
       <View style={{ flexDirection: "row", marginTop: 5, marginLeft: 10 }}>
         <Text style={{ fontSize: 14, fontWeight: "300" }}>
-          {/* {locationDetails.origin_addresses[0].split(',')[1]} */}
-          {locality}
+          {locationDetails.origin_addresses[0]}
         </Text>
       </View>
       <>

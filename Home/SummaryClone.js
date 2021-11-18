@@ -41,8 +41,13 @@ export default function SummaryClone({ route, navigation }) {
     setCheckAddress,
     user,
     setLocality,
+    contextShopName,
+    contextAddress,
+    contextShopId,
+    contextShopImage,
+    latLng
   } = React.useContext(Context);
-  console.log(address, "contextaddress");
+  // console.log(address, "contextaddress");
   const handleOpen = (event) => {
     console.log(event);
     if (event === "ADD_ADDRESS") {
@@ -90,13 +95,15 @@ export default function SummaryClone({ route, navigation }) {
   const removeItems = (item) => {
     dispatch({
       type: "REMOVE_FROM_CART",
-      payload: { item, shopId: route.params.shopId },
+      // payload: { item, shopId: route.params.shopId },
+      payload: { item, shopId: contextShopId },
     });
   };
   const selectItems = (item) =>
     dispatch({
       type: "ADD_TO_CART",
-      payload: { item, shopId: route.params.shopId },
+      // payload: { item, shopId: route.params.shopId },
+      payload: { item, shopId: contextShopId },
     });
   const Bill = [
     {
@@ -141,13 +148,16 @@ export default function SummaryClone({ route, navigation }) {
       })
     );
     //Need to pass delivery fee details
+    // shopName: route.params.shopName,
+      // shopAddress: route.params.address,
     var data = {
       customerID: 1,
-      shopName: route.params.shopName,
-      shopAddress: route.params.address,
+      shopName: contextShopName,
+      shopAddress: contextAddress,
+      shopId: contextShopId,
       itemDetails: arr,
       totalPrice: total.toString(),
-      deliveryLocation: "Loyal mill colony,Kovilpatti",
+      deliveryLocation: address,
       datetime: new Date(),
     };
     //Delete the cart
@@ -189,7 +199,7 @@ export default function SummaryClone({ route, navigation }) {
           <View style={{ flexDirection: "row", marginLeft: 15, marginTop: 8 }}>
             <Image
               style={{ width: 70, height: 70, borderRadius: 5 }}
-              source={{ uri: route.params.shopImage }}
+              source={{ uri: contextShopImage }}
             />
             <View style={{ marginTop: 10, marginLeft: 10 }}>
               <Text
@@ -198,10 +208,12 @@ export default function SummaryClone({ route, navigation }) {
                   fontWeight: "700",
                 }}
               >
-                {route.params.shopName}
+                {/* {route.params.shopName} */}
+                {contextShopName}
               </Text>
               <Text style={{ fontSize: 12, color: "grey" }}>
-                {route.params.address}
+                {/* {route.params.address} */}
+                {contextAddress}
               </Text>
             </View>
           </View>

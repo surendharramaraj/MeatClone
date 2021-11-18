@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import LottieView from "lottie-react-native";
 export const shopItem = [];
 export default function Shop(props) {
   let length_of_the_shop = props.shopData.filter(
@@ -21,17 +22,23 @@ export default function Shop(props) {
             style={{
               alignItems: "center",
               justifyContent: "center",
-              marginTop: Dimensions.get("window").height / 3,
+              marginTop: Dimensions.get("window").height /4,
             }}
           >
-            <Image
+            {/* <Image
               source={require("../assets/NoMeatLogo.png")}
               style={{ width: 150, height: 150 }}
-            />
+            /> */}
+            <LottieView
+            source={require("../assets/72254-meat.json")}
+            style={{ width: 150, height: 150 }}
+            loop
+            autoPlay
+  />
             <Text
               style={{ fontSize: 26, fontWeight: "500", fontStyle: "italic" }}
             >
-              {props.message} is not currently available
+              Oops!!!! {props.message} is not currently available
             </Text>
           </View>
         ) : (

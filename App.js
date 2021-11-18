@@ -9,36 +9,16 @@ import configureStore from "./redux/store";
 import Summary from "./Home/Summary";
 import SplashMap from "./Home/SplashMap";
 import Address from "./Home/Address";
-import TrackOrder from "./DrawerComponents/TrackOrder";
-import HelpCenter from "./DrawerComponents/HelpCenter";
-import ProfileScreen from "./DrawerComponents/ProfileScreen";
-import CustomDrawer from "./DrawerComponents/CustomDrawer";
-import OrderHistory from "./DrawerComponents/OrderHistory";
 import { ContextProvider } from "./GlobalContext/ContextProvider";
 import DeliverActionSheet from "./Home/DeliverActionSheet";
 import SummaryClone from "./Home/SummaryClone";
 import Context from "./GlobalContext/ContextProvider";
 import Login from "./Home/Login";
+import TrackOrder from "./Home/TrackOrder";
+import EmptyCart from "./Home/EmptyCart";
 const store = configureStore();
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
-const drawer = () => {
-  return (
-    <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawer {...props} />}
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Drawer.Screen name="Map" component={SplashMap} />
-      <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Track My Order" component={TrackOrder} />
-      <Drawer.Screen name="Order History" component={OrderHistory} />
-      <Drawer.Screen name="Help Center" component={HelpCenter} />
-      <Drawer.Screen name="My Account" component={ProfileScreen} />
-    </Drawer.Navigator>
-  );
-};
+
 export default function App() {
   return (
     <ContextProvider>
@@ -56,16 +36,17 @@ const UserAuth = () => {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {user ? (
             <>
-              <Stack.Screen name="Drawer" component={drawer} />
-              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Map" component={SplashMap} />
+              <Stack.Screen name="Home" component={Home}/>
               <Stack.Screen name="ShopDetail" component={ShopDetail} />
-              {/* <Stack.Screen name="OrderSummary" component={Summary} /> */}
               <Stack.Screen name="SummaryClone" component={SummaryClone} />
               <Stack.Screen
                 name="DeliveryAddress"
                 component={DeliverActionSheet}
               />
               <Stack.Screen name="Address" component={Address} />
+              <Stack.Screen name="TrackOrder" component={TrackOrder} />
+              <Stack.Screen name="EmptyCart" component={EmptyCart} />
             </>
           ) : (
             <Stack.Screen name="Login" component={Login} />

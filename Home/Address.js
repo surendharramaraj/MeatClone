@@ -13,7 +13,7 @@ import Context from "../GlobalContext/ContextProvider";
 import { Ionicons } from "@expo/vector-icons";
 
 const Address = ({ navigation }) => {
-  const { setLatLng, setLocality, user, setAddress, setCheckAddress } =
+  const { setLatLng, setLocality, user, setAddress, setCheckAddress , pressLocation , setPressLocation} =
     React.useContext(Context);
   const handleLatLng = async (value) => {
     // console.log(value);
@@ -49,7 +49,7 @@ const Address = ({ navigation }) => {
       }}
     >
       <TouchableOpacity
-        onPress={() => navigation.navigate("Map")}
+        onPress={() => {setPressLocation(false) , navigation.navigate("Map")}}
         style={{
           flexDirection: "row",
           alignItems: "center",

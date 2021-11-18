@@ -10,12 +10,17 @@ import {
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
+import Context from "../GlobalContext/ContextProvider";
 export default function ShopItem(props) {
   const items = useSelector((state) => state.selectedItems.items);
   const total = items
     .map((item) => Number(item.price.replace("Rs.", "")))
     .reduce((prev, curr) => prev + curr, 0);
-
+  const {setContextShopId , setContextShopName , setContextShopImage , setContextAddress} = React.useContext(Context);
+  // console.log(props.shopId,'shopId');
+  // console.log(props.shopName,'shopName');
+  // console.log(props.shopImage,'shopImage');
+  // console.log(props.address,'address');
   const dispatch = useDispatch();
   const dict = {};
   const removeItems = (item) =>
@@ -42,7 +47,9 @@ export default function ShopItem(props) {
       dict[item.title] = 1;
     }
   });
-
+  React.useEffect(() => {
+    total > 0 ? (setContextShopId(props.shopId) , setContextShopName(props.shopName) , setContextShopImage(props.shopImage) , setContextAddress(props.address)) : (setContextShopId("") , setContextShopName("") , setContextShopImage("") , setContextAddress(""))
+  }, [total]);
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false}>

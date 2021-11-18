@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import * as Location from "expo-location";
 import MapView from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
 import Context from "../GlobalContext/ContextProvider";
-
+import LottieView from "lottie-react-native";
+const GOOGLE_API_KEY = "AIzaSyCC8eoRVLMatjpED8vou4sZl6NK8leiStI";
 export default function SplashMap({ navigation }) {
   const [location, setLocation] = React.useState({
     latitude: 37.42159,
@@ -14,28 +15,36 @@ export default function SplashMap({ navigation }) {
   });
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const { setLocality, setLatLng } = useContext(Context);
-  const [locationDetails, setLocationDetails] = React.useState(null);
-  const handlePress = () => {
-    navigation.navigate("Home");
+  const {
+    setLocality,
+    setLatLng,
+    locality,
+    pressLocation,
+    setPressLocation,
+    locationDetails,
+    setLocationDetails,
+  } = useContext(Context);
+  // const [locationDetails, setLocationDetails] = React.useState(null);
+  const handlePress = async () => {
+    await setPressLocation(true);
+    await navigation.navigate("Home");
   };
   const detailOfLocation = async () => {
     await fetch(
-      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${location.latitude}&longitude=${location.longitude}`
+      `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${location.latitude},${location.longitude}&destinations=${location.latitude},${location.longitude}&key=${GOOGLE_API_KEY}`
     )
       .then((res) => res.json())
-      .then((json) => {
-        setLocationDetails(json);
-        setLocality(json.locality);
+      .then(async (json) => {
+        await setLocationDetails(json);
+        await setLocality(json.destination_addresses[0].split(",")[1].trim());
       });
-    setLatLng(location);
-    // console.log("locationDetails", locationDetails);
+    await setLatLng(location);
     setInterval(() => {
       setLoading(false);
-    }, 2000);
+    }, 10000);
   };
-
-  React.useEffect(() => {
+  console.log(locality);
+  React.useEffect(async () => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -46,18 +55,15 @@ export default function SplashMap({ navigation }) {
       let location = await Location.getCurrentPositionAsync({
         enableHighAccuracy: true,
       });
-      setLocation({
+      await setLocation({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.003,
         longitudeDelta: 0.003,
       });
     })();
-    detailOfLocation();
-  }, [location.latitude, location.longitude]);
-  // const handleRegionChange = (region) => {
-  //   console.log({ region });
-  // };
+    await detailOfLocation();
+  }, [location.latitude, location.longitude, pressLocation]);
 
   return (
     <>
@@ -65,19 +71,16 @@ export default function SplashMap({ navigation }) {
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: "500",
-              fontStyle: "italic",
-              marginBottom: 20,
-            }}
-          >
-            Loading...
-          </Text>
-          <Text style={{ fontSize: 20, fontWeight: "400" }}>
-            Please Wait....We are getting your location
-          </Text>
+           <LottieView
+            source={require("../assets/9329-loading.json")}
+            loop
+            autoPlay
+  />
+          {locationDetails && (
+            <Text style={{ fontSize: 15, fontWeight: "400" ,marginTop : Dimensions.get("window").height/3}}>
+              {locationDetails.destination_addresses[0]}
+            </Text>
+          )}
         </View>
       ) : (
         <View style={{ flex: 1, alignItems: "center" }}>
@@ -121,7 +124,8 @@ export default function SplashMap({ navigation }) {
                 <Text
                   style={{ fontWeight: "bold", fontSize: 18, marginLeft: 5 }}
                 >
-                  {locationDetails.locality}
+                  {/* {locationDetails.locality} */}
+                  {locationDetails.origin_addresses[0].split(",")[1]}
                 </Text>
               ) : null}
             </View>
@@ -135,8 +139,7 @@ export default function SplashMap({ navigation }) {
                     fontWeight: "500",
                   }}
                 >
-                  {locationDetails.principalSubdivision},{" "}
-                  {locationDetails.countryName}. ({locationDetails.locality})
+                  {locationDetails.destination_addresses[0]}
                 </Text>
                 <TouchableOpacity
                   style={{

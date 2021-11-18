@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
-import { DrawerActions } from "@react-navigation/routers";
+import { useNavigation } from "@react-navigation/core";
+import Context from "../GlobalContext/ContextProvider";
 const Header = (props) => {
-  console.log(props.location);
+  const navigation = useNavigation();
+  const {locality} = React.useContext(Context);
   return (
     <View
       style={{
@@ -15,7 +17,7 @@ const Header = (props) => {
     >
       <TouchableOpacity
         style={{ flexDirection: "row" }}
-        onPress={() => props.navigation.navigate("Address")}
+        onPress={() => navigation.navigate("Address")}
       >
         <Text
           style={{
@@ -25,7 +27,7 @@ const Header = (props) => {
             fontWeight: "600",
           }}
         >
-          {props.locality.toUpperCase()}
+          {locality.toUpperCase()}
         </Text>
         <Entypo
           name="chevron-down"
@@ -36,7 +38,7 @@ const Header = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={{ marginRight: 18 }}
-        onPress={() => props.navigation.dispatch(DrawerActions.openDrawer())}
+        onPress={() =>alert('hai')}
       >
         <FontAwesome name="user-circle" size={33} color="black" />
       </TouchableOpacity>
